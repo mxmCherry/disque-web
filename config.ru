@@ -1,3 +1,9 @@
-require_relative 'disque_web'
+require 'rack/contrib'
+require_relative 'disque/web/api'
 
-run DisqueWeb::API
+use Rack::TryStatic, \
+  root: File.expand_path('../public', __FILE__),
+  urls: ['/'],
+  try: ['index.html']
+
+run Disque::Web::API

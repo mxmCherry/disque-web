@@ -37,6 +37,8 @@ GEM
     rack (2.0.3)
     rack-accept (0.4.5)
       rack (>= 0.4)
+    rack-contrib (2.0.1)
+      rack (~> 2.0)
     redic (1.5.0)
       hiredis
     thread_safe (0.3.6)
@@ -54,6 +56,7 @@ PLATFORMS
 DEPENDENCIES
   disque
   grape
+  rack-contrib
 
 BUNDLED WITH
    1.16.1
