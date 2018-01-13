@@ -23,8 +23,8 @@ This app provides no auth, don't expose it publicly!
 Or use some auth proxy, like [oauth2_proxy](https://github.com/bitly/oauth2_proxy) or similar.
 
 ```bash
-git clone TODO
-cd TODO
+git clone https://mxmCherry@bitbucket.org/mxmCherry/disque-web.git
+cd disque-web
 bundle install
 ```
 
@@ -42,6 +42,11 @@ DISQUE_ADDRS=127.0.0.1:7711,127.0.0.1:7712 bundle exec rackup -p 3030
 
 
 ## Quick try with docker-compose
+
+```bash
+git clone https://mxmCherry@bitbucket.org/mxmCherry/disque-web.git
+cd disque-web
+```
 
 ```
 docker-compose up
