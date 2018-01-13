@@ -1,0 +1,23 @@
+version: '3'
+services:
+
+  disque:
+    image: richnorth/disque
+
+  disque-web-seed:
+    build: .
+    command: bundle exec ruby seed.rb
+    environment:
+      - DISQUE_ADDRS=disque:7711
+    depends_on:
+      - disque
+
+  disque-web:
+    build: .
+    command: bundle exec rackup --host=0.0.0.0 --port=9292
+    environment:
+      - DISQUE_ADDRS=disque:7711
+    ports:
+      - 9292:9292
+    depends_on:
+      - disque-web-seed
