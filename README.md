@@ -2,7 +2,7 @@
 
 Web client for [disque](https://github.com/antirez/disque)
 
-Single file, dirty code, no tests, but seems to be working ¯\_(ツ)_/¯
+Dirty code, no tests, but seems to be working ¯\_(ツ)_/¯
 
 
 ## Features
@@ -50,7 +50,7 @@ docker-compose up
 Then open [localhost:9292](http://localhost:9292/) in your browser.
 
 
-## Docker
+## Docker hints
 
 ```bash
 docker build -t disque-web .
