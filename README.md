@@ -51,7 +51,7 @@ Provided [docker-compose.yml](docker-compose.yml) does the following:
 
 - runs disque server
 - seeds it with dummy data
-- exposes disque-web interface on port `9292`
+- exposes disque-web interface on `127.0.0.1:9292`
 
 ### With [ruby](https://www.ruby-lang.org/)/[rack(up)](https://github.com/rack/rack)
 
