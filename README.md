@@ -37,7 +37,7 @@ docker run -it -p 127.0.0.1:9292:9292 -e DISQUE_ADDRS=127.0.0.1:7711,127.0.0.1:7
 ### With [docker-compose](https://docs.docker.com/compose/)
 
 ```bash
-git clone https://bitbucket.org/mxmCherry/disque-web.git
+git clone https://github.com/mxmCherry/disque-web.git
 cd disque-web
 ```
 
@@ -56,7 +56,7 @@ Provided [docker-compose.yml](docker-compose.yml) does the following:
 ### With [ruby](https://www.ruby-lang.org/)/[rack(up)](https://github.com/rack/rack)
 
 ```bash
-git clone https://bitbucket.org/mxmCherry/disque-web.git
+git clone https://github.com/mxmCherry/disque-web.git
 cd disque-web
 bundle install
 ```
