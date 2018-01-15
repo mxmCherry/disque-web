@@ -1,3 +1,13 @@
+.PHONY: default
+default:
+	docker-compose up
+
+.PHONY: docker-publish
+docker-publish:
+	docker build -t disque-web:latest .
+	docker tag disque-web:latest mxmcherry/disque-web:latest
+	docker push mxmcherry/disque-web:latest
+
 dist: public/dist/bootstrap.css public/dist/vue.js public/dist/vue-router.js
 
 public/dist/bootstrap.css:

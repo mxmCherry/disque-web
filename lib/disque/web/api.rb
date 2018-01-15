@@ -1,5 +1,5 @@
 require 'grape'
-require_relative '../fancy_client'
+require 'disque/fancy_client'
 
 module Disque::Web
   class API < Grape::API

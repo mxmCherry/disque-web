@@ -2,10 +2,10 @@ version: '3'
 services:
 
   disque:
-    image: richnorth/disque
+    image: blacksquaremedia/disque:1.0-rc1
 
-  disque-web-seed:
-    build: .
+  debug-seed:
+    build: ./debug-seed
     command: bundle exec ruby seed.rb
     environment:
       - DISQUE_ADDRS=disque:7711
@@ -20,4 +20,4 @@ services:
     ports:
       - 9292:9292
     depends_on:
-      - disque-web-seed
+      - debug-seed

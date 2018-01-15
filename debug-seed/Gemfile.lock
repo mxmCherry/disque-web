@@ -1,0 +1,17 @@
+GEM
+  remote: http://rubygems.org/
+  specs:
+    disque (0.0.6)
+      redic (~> 1.5.0)
+    hiredis (0.6.1)
+    redic (1.5.0)
+      hiredis
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  disque
+
+BUNDLED WITH
+   1.16.1

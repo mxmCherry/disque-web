@@ -6,7 +6,7 @@ var App = (function() {
 		template: `
 			<div>
 				<nav class="navbar navbar-expand-lg navbar-light bg-light">
-					<router-link class="navbar-brand" :to="{ name: 'home' }">Disque::Web</router-link>
+					<router-link class="navbar-brand" :to="{ name: 'home' }">disque-web</router-link>
 					<div class="navbar-collapse">
 						<ul class="navbar-nav mr-auto" v-if="queues">
 							<router-link

@@ -1,5 +1,7 @@
+$LOAD_PATH.push 'lib'
+
 require 'rack/contrib'
-require_relative 'disque/web/api'
+require 'disque/web/api'
 
 use Rack::TryStatic, \
   root: File.expand_path('../public', __FILE__),
