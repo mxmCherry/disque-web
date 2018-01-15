@@ -70,3 +70,11 @@ It should be available on [localhost:9292](http://localhost:9292/).
 ### Caveats
 
 Never try to consume API, exposed by this project, programmatically. It is done solely for project UI implementation and may/will change.
+
+
+## TODO
+
+- [ ] proper reconnect with queue list / current page data reload (move reconnect to root [app.js](public/js/app.js)?)
+- [ ] make `/api/` namespace for [Disque::Web::API](lib/disque/web/api.rb)
+- [ ] review [Disque::Web::API](lib/disque/web/api.rb) - `resource :ack { put { ... } }` seems weird, probs, just use `put :ack` instead?
+- [ ] [rspec](http://rspec.info/) tests for [Disque::FancyClient](lib/disque/fancy_client.rb)
