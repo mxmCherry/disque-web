@@ -20,7 +20,13 @@ var api = (function() {
 			}),
 			body: JSON.stringify(body)
 		}).then(function(response) {
-			return response.json();
+			var contentType = response.headers.get('Content-Type');
+			if( contentType && contentType.includes('application/json') ) {
+				return response.json();
+			}
+			return response.text().then(function(text) {
+				throw new Error(text);
+			});
 		});
 	}
 
