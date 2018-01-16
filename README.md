@@ -83,6 +83,7 @@ Never try to consume API, exposed by this project, programmatically. It is done 
 
 ## TODO
 
+- [ ] better [Home](public/js/home.js) page component - show navbar?
 - [ ] lock buttons when data is being loaded? (like ACK/DEL on job page)
 - [ ] better errors (show [bootstrap alert](https://getbootstrap.com/docs/4.0/components/alerts/) instead of js `alert(...)`?)
 - [ ] proper reconnect with all data reload (probably, right in [Home](public/js/home.js) page component)
