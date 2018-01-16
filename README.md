@@ -4,7 +4,7 @@ Web client for [Disque](https://github.com/antirez/disque)
 
 WARNING!!!
 
-This is quick-and-dirty proof-of-concept Disque web client (but seems to be working fine). Use at your own risk.
+This is quick-and-dirty Disque web client (though seems to be working fine). Use at your own risk.
 
 WARNING!!!
 
@@ -15,6 +15,7 @@ Or use some auth proxy, like [oauth2_proxy](https://github.com/bitly/oauth2_prox
 
 ## Features
 
+- multi-cluster (double-comma `,,` separated, see Usage section)
 - server info ([INFO](https://github.com/antirez/disque#info))
 - list queues ([QSCAN](https://github.com/antirez/disque#qscan-count-count-busyloop-minlen-len-maxlen-len-importrate-rate), navbar)
 - queue stats ([QSTAT](https://github.com/antirez/disque#qstat-queue-name), queues/NAME page)
@@ -29,10 +30,18 @@ Or use some auth proxy, like [oauth2_proxy](https://github.com/bitly/oauth2_prox
 ### With [docker](https://www.docker.com/)
 
 ```bash
-docker run -it -p 127.0.0.1:9292:9292 -e DISQUE_ADDRS=127.0.0.1:7711,127.0.0.1:7712 mxmcherry/disque-web:latest
+docker run -it \
+  -p 127.0.0.1:9292:9292 \
+  -e DISQUE_ADDRS=127.0.0.1:7711,127.0.0.1:7712,,127.0.0.1:7713,127.0.0.1:7714 \
+  mxmcherry/disque-web:latest
 ```
 
 `DISQUE_ADDRS` must be accessible from docker network.
+
+Double-comma (`,,`) separates different Disque clusters, in this example:
+
+- cluster 0: `127.0.0.1:7711,127.0.0.1:7712`
+- cluster 1: `127.0.0.1:7713,127.0.0.1:7714`
 
 ### With [docker-compose](https://docs.docker.com/compose/)
 
@@ -74,10 +83,11 @@ Never try to consume API, exposed by this project, programmatically. It is done 
 
 ## TODO
 
+- [ ] lock buttons when data is being loaded? (like ACK/DEL on job page)
 - [ ] better errors (show [bootstrap alert](https://getbootstrap.com/docs/4.0/components/alerts/) instead of js `alert(...)`?)
-- [ ] proper reconnect with queue list / current page data reload (move reconnect to root [app.js](public/js/app.js)?)
-- [ ] queue job counts in navbar ([QSTAT](https://github.com/antirez/disque#qstat-queue-name) `len` attribute? Load asynchronously by frontend (`fetch jobs/NAME` for each job?))
+- [ ] proper reconnect with all data reload (probably, right in [Home](public/js/home.js) page component)
+- [ ] queue job counts in navbar ([QSTAT](https://github.com/antirez/disque#qstat-queue-name) `len` attribute? Load asynchronously by frontend (`fetch cluster/ID/jobs/NAME` for each job?))
 - [ ] queue page, jobs list - filter by job state? Or make tabs for [each state](https://github.com/antirez/disque#disque-state-machine)?
-- [ ] queue page, jobs list - case-insensitive search? (by job JSON? `job['body'] = JSON.load job['body']` on backend?)
+- [ ] queue page, jobs list - case-insensitive search? (by job JSON? Also with `job['body'] = JSON.load job['body']` on backend?)
 - [ ] auto-renew (some) data each N seconds? (like job counts in navbar?)
-- [ ] [rspec](http://rspec.info/) tests for [Disque::FancyClient](lib/disque/fancy_client.rb)
+- [ ] [rspec](http://rspec.info/) tests for [Disque::Client](lib/disque/client.rb)

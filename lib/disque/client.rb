@@ -1,6 +1,6 @@
 require 'disque'
 
-class Disque::FancyClient < Disque
+class Disque::Client < Disque
 
   # https://github.com/antirez/disque#info
   def info

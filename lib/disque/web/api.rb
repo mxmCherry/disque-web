@@ -1,77 +1,101 @@
+require 'disque'
+require 'disque/cluster'
 require 'grape'
-require 'disque/fancy_client'
+require 'grape-entity'
 
 module Disque::Web
-  class API < Grape::API
+  class Api < Grape::API
     prefix :api
-
-    content_type :json, 'application/json; charset=utf-8'
-    content_type :html, 'text/html; charset=utf-8'
-    default_format :json
+    format :json
 
     class << self
-      def disque_client
-        disque_reconnect! unless @disque_client
-        @disque_client
+      def cluster_list
+        @cluster_list ||= Disque::Cluster.list_from_env
       end
 
-      def disque_reconnect!
-        @disque_client ||= Disque::FancyClient.new(ENV['DISQUE_ADDRS'] || '127.0.0.1:7711')
+      def cluster_index
+        @cluster_index ||= Hash[
+          *cluster_list.map{ |c| [c.id, c] }.flatten
+        ]
       end
     end
 
     helpers do
-      def disque_client
-        API.disque_client
+      def cluster_list
+        Api.cluster_list
       end
 
-      def disque_reconnect!
-        API.disque_reconnect!
+      def cluster_index
+        Api.cluster_index
+      end
+
+      def cluster
+        cluster_index[params[:cluster_id]]
       end
     end
 
-    resource :server do
-      get :info do
-        disque_client.info
-      end
-      put :reconnect do
-        disque_reconnect!
-        true
-      end
-    end
-
-    resource :queues do
+    resource :clusters do
       get do
-        disque_client.qscan.to_a
+        present cluster_list
       end
-      route_param :queue_name do
+
+      params do
+        requires :cluster_id, type: Integer
+      end
+      route_param :cluster_id do
         get do
-          disque_client.qstat params[:queue_name]
+          present addrs: cluster.addrs, info: cluster.client.info
         end
-        resource :jobs do
+
+        resource :queues do
           get do
-            disque_client.jscan(queue: params[:queue_name], reply: 'id').to_a
+            present cluster.client.qscan.lazy.map{ |name| { name: name } }.to_a
+          end
+
+          params do
+            requires :queue_name, type: String
+          end
+          route_param :queue_name do
+            get do
+              present cluster.client.qstat params[:queue_name]
+            end
+
+            resource :jobs do
+              get do
+                present cluster.client
+                  .jscan(queue: params[:queue_name], reply: 'id').lazy
+                  .map { |id| { id: id } }
+                  .to_a
+              end
+            end
+          end
+        end
+
+        resource :jobs do
+          # get do
+          #   present cluster.client
+          #     .jscan(reply: 'id').lazy
+          #     .map{ |id| { id: id } }
+          #     .to_a
+          # end
+
+          params do
+            requires :job_id, type: String
+          end
+          route_param :job_id do
+            get do
+              present cluster.client.show params[:job_id]
+            end
+            delete do
+              present cluster.client.deljob params[:job_id]
+            end
+            put :ack do
+              present cluster.client.ackjob params[:job_id]
+            end
           end
         end
       end
     end
 
-    resource :jobs do
-      get do
-        disque_client.jscan.to_a
-      end
-      route_param :job_id do
-        get do
-          disque_client.show params[:job_id]
-        end
-        delete do
-          disque_client.deljob params[:job_id]
-        end
-        put :ack do
-          disque_client.ackjob params[:job_id]
-        end
-      end
-    end
-
-  end # class API
-end # module Disque::Web
+  end
+end

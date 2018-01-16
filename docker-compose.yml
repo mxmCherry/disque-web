@@ -1,23 +1,35 @@
 version: '3'
 services:
 
-  disque:
+  disque-1:
     image: blacksquaremedia/disque:1.0-rc1
 
-  debug-seed:
+  disque-2:
+    image: blacksquaremedia/disque:1.0-rc1
+
+  debug-seed-1:
     build: ./debug-seed
     command: bundle exec ruby seed.rb
     environment:
-      - DISQUE_ADDRS=disque:7711
+      - DISQUE_ADDRS=disque-1:7711
     depends_on:
-      - disque
+      - disque-1
+
+  debug-seed-2:
+    build: ./debug-seed
+    command: bundle exec ruby seed.rb
+    environment:
+      - DISQUE_ADDRS=disque-2:7711
+    depends_on:
+      - disque-2
 
   disque-web:
     build: .
     command: bundle exec rackup --host=0.0.0.0 --port=9292
     environment:
-      - DISQUE_ADDRS=disque:7711
+      - DISQUE_ADDRS=disque-1:7711,,disque-2:7711
     ports:
       - 127.0.0.1:9292:9292
     depends_on:
-      - debug-seed
+      - debug-seed-1
+      - debug-seed-2

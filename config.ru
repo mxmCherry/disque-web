@@ -8,4 +8,4 @@ use Rack::TryStatic, \
   urls: ['/'],
   try: ['index.html']
 
-run Disque::Web::API
+run Disque::Web::Api

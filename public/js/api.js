@@ -1,68 +1,66 @@
 var api = (function() {
-	'use strict';
+  'use strict';
 
-	function transformJob(job) {
-		try {
-			job.body = JSON.parse(job.body);
-		} catch(e) {};
-		return job;
-	}
+  function transformJob(job) {
+    try {
+      job.body = JSON.parse(job.body);
+    } catch(e) {};
+    return job;
+  }
 
-	function API(mountpoint) {
-		this.__mountpoint = mountpoint || '';
-	}
+  function Api(mountpoint) {
+    this.__mountpoint = mountpoint || '';
+  }
 
-	API.prototype.__fetch = function(method, url, body) {
-		return fetch(this.__mountpoint + url, {
-			method: method,
-			headers: new Headers({
-				Accept: 'application/json'
-			}),
-			body: JSON.stringify(body)
-		}).then(function(response) {
-			var contentType = response.headers.get('Content-Type');
-			if( contentType && contentType.includes('application/json') ) {
-				return response.json();
-			}
-			return response.text().then(function(text) {
-				throw new Error(text);
-			});
-		});
-	}
+  Api.prototype.__fetch = function(method, url, body) {
+    return fetch(this.__mountpoint + url, {
+      method: method,
+      headers: new Headers({
+        Accept: 'application/json'
+      }),
+      body: JSON.stringify(body)
+    }).then(function(response) {
+      var contentType = response.headers.get('Content-Type');
+      if( contentType && contentType.includes('application/json') ) {
+        return response.json();
+      }
+      return response.text().then(function(text) {
+        throw new Error(text);
+      });
+    });
+  }
 
-	API.prototype.serverInfo = function() {
-		return this.__fetch('GET', '/server/info');
-	}
+  Api.prototype.listClusters = function() {
+    return this.__fetch('GET', '/clusters/');
+  }
 
-	API.prototype.serverReconnect = function() {
-		return this.__fetch('PUT', '/server/reconnect');
-	}
+  Api.prototype.getCluster = function(id) {
+    return this.__fetch('GET', '/clusters/' + encodeURIComponent(id));
+  }
 
-	API.prototype.listQueues = function() {
-		return this.__fetch('GET', '/queues/');
-	}
+  Api.prototype.listQueues = function(clusterId) {
+    return this.__fetch('GET', '/clusters/' + encodeURIComponent(clusterId) + '/queues');
+  }
 
-	API.prototype.getQueue = function(name) {
-		return this.__fetch('GET', '/queues/' + encodeURIComponent(name));
-	}
+  Api.prototype.getQueue = function(clusterId, queueName) {
+    return this.__fetch('GET', '/clusters/' + encodeURIComponent(clusterId) + '/queues/' + encodeURIComponent(queueName));
+  }
 
-	API.prototype.getQueueJobs = function(name) {
-		return this.__fetch('GET', '/queues/' + encodeURIComponent(name) + '/jobs')
-	}
+  Api.prototype.listQueueJobs = function(clusterId, queueName) {
+    return this.__fetch('GET', '/clusters/' + encodeURIComponent(clusterId) + '/queues/' + encodeURIComponent(queueName) + '/jobs')
+  }
 
-	API.prototype.getJob = function(id) {
-		return this.__fetch('GET', '/jobs/' + encodeURIComponent(id)).then(function(job) {
-			return transformJob(job);
-		});
-	}
+  Api.prototype.getJob = function(clusterId, jobId) {
+    return this.__fetch('GET', '/clusters/' + encodeURIComponent(clusterId) + '/jobs/' + encodeURIComponent(jobId)).then(transformJob);
+  }
 
-	API.prototype.ackJob = function(id) {
-		return this.__fetch('PUT', '/jobs/' + encodeURIComponent(id) + '/ack');
-	}
+  Api.prototype.delJob = function(clusterId, jobId) {
+    return this.__fetch('DELETE', '/clusters/' + encodeURIComponent(clusterId) + '/jobs/' + encodeURIComponent(jobId));
+  }
 
-	API.prototype.delJob = function(id) {
-		return this.__fetch('DELETE', '/jobs/' + encodeURIComponent(id));
-	}
+  Api.prototype.ackJob = function(clusterId, jobId) {
+    return this.__fetch('PUT', '/clusters/' + encodeURIComponent(clusterId) + '/jobs/' + encodeURIComponent(jobId) + '/ack');
+  }
 
-	return new API('api');
+  return new Api('api');
 })();
