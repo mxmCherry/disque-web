@@ -3,6 +3,8 @@ require 'disque/fancy_client'
 
 module Disque::Web
   class API < Grape::API
+    prefix :api
+
     content_type :json, 'application/html; charset=utf-8'
     content_type :html, 'text/html; charset=utf-8'
     default_format :json

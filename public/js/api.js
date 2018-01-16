@@ -58,5 +58,5 @@ var api = (function() {
 		return this.__fetch('DELETE', '/jobs/' + encodeURIComponent(id));
 	}
 
-	return new API('');
+	return new API('api');
 })();
