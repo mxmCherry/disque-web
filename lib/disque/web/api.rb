@@ -31,19 +31,14 @@ module Disque::Web
     end
 
     resource :server do
-      resource :info do
-        get do
-          disque_client.info
-        end
+      get :info do
+        disque_client.info
       end
-      resource :reconnect do
-        put do
-          disque_reconnect!
-          true
-        end
+      put :reconnect do
+        disque_reconnect!
+        true
       end
     end
-
 
     resource :queues do
       get do
@@ -72,10 +67,8 @@ module Disque::Web
         delete do
           disque_client.deljob params[:job_id]
         end
-        resource :ack do
-          put do
-            disque_client.ackjob params[:job_id]
-          end
+        put :ack do
+          disque_client.ackjob params[:job_id]
         end
       end
     end

@@ -74,7 +74,6 @@ Never try to consume API, exposed by this project, programmatically. It is done 
 
 ## TODO
 
-- [ ] review [Disque::Web::API](lib/disque/web/api.rb) - `resource :ack { put { ... } }` seems weird, probs, just use `put :ack` instead?
 - [ ] proper reconnect with queue list / current page data reload (move reconnect to root [app.js](public/js/app.js)?)
 - [ ] queue job counts in navbar ([QSTAT](https://github.com/antirez/disque#qstat-queue-name) `len` attribute? Load asynchronously by frontend (`fetch jobs/NAME` for each job?))
 - [ ] queue page, jobs list - filter by job state? Or make tabs for [each state](https://github.com/antirez/disque#disque-state-machine)?
