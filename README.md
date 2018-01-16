@@ -36,6 +36,8 @@ docker run -it \
   mxmcherry/disque-web:latest
 ```
 
+It should be available on [localhost:9292](http://localhost:9292/).
+
 `DISQUE_ADDRS` must be accessible from docker network.
 
 Double-comma (`,,`) separates different Disque clusters, in this example:
@@ -71,10 +73,21 @@ bundle install
 ```
 
 ```bash
-DISQUE_ADDRS=127.0.0.1:7711,127.0.0.1:7712 bundle exec rackup -o 127.0.0.1 -p 9292 -E deployment
+DISQUE_ADDRS=127.0.0.1:7711,127.0.0.1:7712,,127.0.0.1:7713,127.0.0.1:7714 \
+  bundle exec rackup \
+    -o 127.0.0.1 \
+    -p 9292 \
+    -E deployment
 ```
 
 It should be available on [localhost:9292](http://localhost:9292/).
+
+`DISQUE_ADDRS` must be accessible from docker network.
+
+Double-comma (`,,`) separates different Disque clusters, in this example:
+
+- cluster 0: `127.0.0.1:7711,127.0.0.1:7712`
+- cluster 1: `127.0.0.1:7713,127.0.0.1:7714`
 
 ### Caveats
 
