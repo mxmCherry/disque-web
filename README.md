@@ -74,6 +74,7 @@ Never try to consume API, exposed by this project, programmatically. It is done 
 
 ## TODO
 
+- [ ] better errors (show [bootstrap alert](https://getbootstrap.com/docs/4.0/components/alerts/) instead of js `alert(...)`?)
 - [ ] proper reconnect with queue list / current page data reload (move reconnect to root [app.js](public/js/app.js)?)
 - [ ] queue job counts in navbar ([QSTAT](https://github.com/antirez/disque#qstat-queue-name) `len` attribute? Load asynchronously by frontend (`fetch jobs/NAME` for each job?))
 - [ ] queue page, jobs list - filter by job state? Or make tabs for [each state](https://github.com/antirez/disque#disque-state-machine)?
