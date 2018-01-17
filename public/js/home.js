@@ -4,6 +4,7 @@ var Home = (function() {
   return {
     template: `
       <div>
+        <div class="alert alert-danger" role="alert" v-if="err"><pre>{{ err + '' }}</pre></div>
         <h1>Clusters</h1>
         <ul class="nav flex-column" v-if="clusters">
           <li class="nav-item" v-for="cluster in clusters">
@@ -17,16 +18,18 @@ var Home = (function() {
     `,
     data: function() {
       return {
-        clusters: null
+        clusters: null,
+        err: null
       };
     },
     methods: {
       loadClusters: function() {
         var that = this;
+        that.err = null;
         api.listClusters().then(function(clusters) {
           that.clusters = clusters;
         }).catch(function(err) {
-          alert(err + '');
+          that.err = err;
         });
       }
     },

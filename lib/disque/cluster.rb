@@ -8,7 +8,7 @@ class Disque::Cluster
   attr_reader :id, :addrs, :client
 
   def self.list_from_env
-    ENV['DISQUE_ADDRS'].split(',,').each_with_index.map do |cluster_addrs, cluster_index|
+    (ENV['DISQUE_ADDRS'] || '127.0.0.1:7711').split(',,').each_with_index.map do |cluster_addrs, cluster_index|
       self.new cluster_index, cluster_addrs.split(',')
     end
   end

@@ -4,6 +4,7 @@ var ClusterQueue = (function() {
   return {
     template: `
       <div>
+        <div class="alert alert-danger" role="alert" v-if="err"><pre>{{ err + '' }}</pre></div>
 
         <div v-if="queue">
           <h1>{{ queue.name }}</h1>
@@ -28,7 +29,8 @@ var ClusterQueue = (function() {
     data: function() {
       return {
         queue: null,
-        jobs: null
+        jobs: null,
+        err: null
       };
     },
     methods: {
@@ -38,18 +40,20 @@ var ClusterQueue = (function() {
       },
       loadQueue: function() {
         var that = this;
+        that.err = null;
         api.getQueue(that.$route.params.cluster_id, that.$route.params.queue_name).then(function(queue) {
           that.queue = queue;
         }).catch(function(err) {
-          alert(err + '');
+          that.err = err;
         });
       },
       loadJobs: function() {
         var that = this;
+        that.err = null;
         api.listQueueJobs(that.$route.params.cluster_id, that.$route.params.queue_name).then(function(jobs) {
           that.jobs = jobs;
         }).catch(function(err) {
-          alert(err + '');
+          that.err = err;
         });
       }
     },

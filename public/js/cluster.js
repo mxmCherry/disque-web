@@ -31,21 +31,24 @@ var Cluster = (function() {
             <span class="navbar-text" v-if="!queues">No queues</span>
           </div>
         </nav>
+        <div class="alert alert-danger" role="alert" v-if="err"><pre>{{ err + '' }}</pre></div>
         <router-view></router-view>
       </div>
     `,
     data: function() {
       return {
-        queues: null
+        queues: null,
+        err: null
       };
     },
     methods: {
       loadQueues: function() {
         var that = this;
+        that.err = null;
         api.listQueues(that.$route.params.cluster_id).then(function(queues) {
           that.queues = queues;
         }).catch(function(err) {
-          alert(err + '');
+          that.err = err;
         });
       }
     },

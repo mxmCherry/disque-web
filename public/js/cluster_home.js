@@ -4,6 +4,7 @@ var ClusterHome = (function() {
   return {
     template: `
       <div>
+        <div class="alert alert-danger" role="alert" v-if="err"><pre>{{ err + '' }}</pre></div>
         <div v-if="cluster">
           <h1>{{ cluster.addrs.join(', ') }}</h1>
           <pre>{{ cluster.info }}</pre>
@@ -13,16 +14,18 @@ var ClusterHome = (function() {
     `,
     data: function() {
       return {
-        cluster: null
+        cluster: null,
+        err: null
       }
     },
     methods: {
       loadCluster: function() {
         var that = this;
+        that.err = null;
         api.getCluster(that.$route.params.cluster_id).then(function(cluster) {
           that.cluster = cluster;
         }).catch(function(err) {
-          alert(err + '');
+          that.err = err;
         });
       }
     },

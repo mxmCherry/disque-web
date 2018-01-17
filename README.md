@@ -98,7 +98,6 @@ Never try to consume API, exposed by this project, programmatically. It is done 
 
 - [ ] better [Home](public/js/home.js) page component - show navbar?
 - [ ] lock buttons when data is being loaded? (like ACK/DEL on job page)
-- [ ] better errors (show [bootstrap alert](https://getbootstrap.com/docs/4.0/components/alerts/) instead of js `alert(...)`?)
 - [ ] proper reconnect with all data reload (probably, right in [Home](public/js/home.js) page component)
 - [ ] queue job counts in navbar ([QSTAT](https://github.com/antirez/disque#qstat-queue-name) `len` attribute? Load asynchronously by frontend (`fetch cluster/ID/jobs/NAME` for each job?))
 - [ ] queue page, jobs list - filter by job state? Or make tabs for [each state](https://github.com/antirez/disque#disque-state-machine)?

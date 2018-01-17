@@ -4,6 +4,7 @@ var ClusterJob = (function() {
   return {
     template: `
       <div>
+        <div class="alert alert-danger" role="alert" v-if="err"><pre>{{ err + '' }}</pre></div>
         <div v-if="job">
           <h1>
             {{ job.id }}
@@ -33,16 +34,18 @@ var ClusterJob = (function() {
       return {
         job: null,
         ackStatus: null,
-        delStatus: null
+        delStatus: null,
+        err: null
       };
     },
     methods: {
       loadJob: function() {
         var that = this;
+        that.err = null;
         api.getJob(that.$route.params.cluster_id, that.$route.params.job_id).then(function(job) {
           that.job = job;
         }).catch(function(err) {
-          alert(err + '');
+          that.err = err;
         });
       },
       delJob: function() {
@@ -50,10 +53,11 @@ var ClusterJob = (function() {
         if( !confirm('DEL ' + that.$route.params.job_id + '?') ) {
           return;
         }
+        that.err = null;
         api.delJob(that.$route.params.cluster_id, that.$route.params.job_id).then(function(status) {
           that.delStatus = status;
         }).catch(function(err) {
-          alert(err + '');
+          that.err = err;
         });
       },
       ackJob: function() {
@@ -61,10 +65,11 @@ var ClusterJob = (function() {
         if( !confirm('ACK ' + that.$route.params.job_id + '?') ) {
           return;
         }
+        that.err = null;
         api.ackJob(that.$route.params.cluster_id, that.$route.params.job_id).then(function(status) {
           that.ackStatus = status;
         }).catch(function(err) {
-          alert(err + '');
+          that.err = err;
         });
       }
     },
