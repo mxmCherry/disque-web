@@ -15,7 +15,7 @@ Or use some auth proxy, like [oauth2_proxy](https://github.com/bitly/oauth2_prox
 
 ## Features
 
-- multi-cluster (double-comma `,,` separated, see Usage section)
+- multi-cluster (double-comma `,,` separated, see [Usage](#usage))
 - server info ([INFO](https://github.com/antirez/disque#info))
 - list queues ([QSCAN](https://github.com/antirez/disque#qscan-count-count-busyloop-minlen-len-maxlen-len-importrate-rate), navbar)
 - queue stats ([QSTAT](https://github.com/antirez/disque#qstat-queue-name), queues/NAME page)
