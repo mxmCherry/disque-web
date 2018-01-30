@@ -18,7 +18,8 @@ var api = (function() {
       headers: new Headers({
         Accept: 'application/json'
       }),
-      body: JSON.stringify(body)
+      body: JSON.stringify(body),
+      credentials: 'include'
     }).then(function(response) {
       var contentType = response.headers.get('Content-Type');
       if( contentType && contentType.includes('application/json') ) {
