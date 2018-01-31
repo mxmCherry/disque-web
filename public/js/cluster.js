@@ -46,7 +46,9 @@ var Cluster = (function() {
         var that = this;
         that.err = null;
         api.listQueues(that.$route.params.cluster_id).then(function(queues) {
-          that.queues = queues;
+          that.queues = queues.sort(function(a, b) {
+            return a.name < b.name ? -1 : b.name < a.name ? 1 : 0;
+          });
         }).catch(function(err) {
           that.err = err;
         });
