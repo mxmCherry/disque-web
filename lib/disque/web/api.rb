@@ -20,6 +20,10 @@ module Disque::Web
       end
     end
 
+    rescue_from :all do |e|
+      error!(e.message)
+    end
+
     helpers do
       def cluster_list
         Api.cluster_list

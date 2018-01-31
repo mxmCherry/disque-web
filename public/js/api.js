@@ -23,7 +23,12 @@ var api = (function() {
     }).then(function(response) {
       var contentType = response.headers.get('Content-Type');
       if( contentType && contentType.includes('application/json') ) {
-        return response.json();
+        return response.json().then(function(data) {
+          if( data.error ) {
+            throw new Error(data.error);
+          };
+          return data;
+        });
       }
       return response.text().then(function(text) {
         throw new Error(text);
