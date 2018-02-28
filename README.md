@@ -1,4 +1,4 @@
-# disque-web
+# disque-web ([docker hub](https://hub.docker.com/r/mxmcherry/disque-web/))
 
 Web client for [Disque](https://github.com/antirez/disque)
 
