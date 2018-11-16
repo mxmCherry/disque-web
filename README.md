@@ -96,10 +96,6 @@ Never try to consume API, exposed by this project, programmatically. It is done 
 
 ## TODO
 
-- [ ] better [Home](public/js/home.js) page component - show navbar?
-- [ ] lock buttons when data is being loaded? (like ACK/DEL on job page)
-- [ ] proper reconnect with all data reload (probably, right in [Home](public/js/home.js) page component)
-- [ ] queue job counts in navbar ([QSTAT](https://github.com/antirez/disque#qstat-queue-name) `len` attribute? Load asynchronously by frontend (`fetch cluster/ID/jobs/NAME` for each job?))
-- [ ] queue page, jobs list - filter by job state? Or make tabs for [each state](https://github.com/antirez/disque#disque-state-machine)?
-- [ ] queue page, jobs list - case-insensitive search? (by job JSON? Also with `job['body'] = JSON.load job['body']` on backend?)
-- [ ] [rspec](http://rspec.info/) tests for [Disque::Client](lib/disque/client.rb)
+1. Better UI - at least, if cluster has many queues, they overfill navbar, looks ugly (though still works)
+2. Paginate (or so) jobs - sometimes there may be plenty of them
+3. Some simple job filtering (probably, just on UI side)
